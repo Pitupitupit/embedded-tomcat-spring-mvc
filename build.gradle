@@ -1,0 +1,30 @@
+plugins {
+	id 'java'
+}
+
+group = 'pl.groch'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework:spring-webmvc:6.1.2'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.17'
+}
+
+jar {
+	from(configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }) {
+		exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+	}
+	manifest {
+		attributes 'Main-Class': 'pl.groch.example.Main'
+	}
+
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
